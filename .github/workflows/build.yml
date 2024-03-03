@@ -1,5 +1,4 @@
 name: build
-
 on:
   workflow_dispatch:
     inputs:
@@ -7,15 +6,12 @@ on:
         description: 'Apps: (Write a list of apps to build. Ex: ["client-app", "api-customer-service"]). Empty array creates images for all services.'
         default: '[]'
         required: true
-
 env:
-  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  GH_TOKEN: ${{ secrets.FULL_GH_TOKEN }}
   ACR_ENDPOINT: ${{ secrets.ACR_ENDPOINT }}
   ACR_USERNAME: ${{ secrets.ACR_USERNAME }}
   ACR_PASSWORD: ${{ secrets.ACR_PASSWORD }}
-  NX_CLOUD_AUTH_TOKEN: ${{ secrets.NX_CLOUD_AUTH_TOKEN }}
   NX_BRANCH: ${{ github.head_ref || github.ref_name }}
-
 jobs:
   set-inputs:
     runs-on: ubuntu-latest
