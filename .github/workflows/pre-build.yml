@@ -10,7 +10,7 @@ on:
   pull_request:
 env:
   # @INFO: If independent builds are enabled, only affected projects are going to be deployed.
-  IS_INDEPENDENT_BUILD_ENABLED: "true"
+  IS_INDEPENDENT_BUILD_ENABLED: "false"
   GH_TOKEN: ${{ secrets.FULL_GH_TOKEN }}
   NX_BRANCH: ${{ github.head_ref || github.ref_name }}
 jobs:

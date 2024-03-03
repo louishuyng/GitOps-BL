@@ -8,8 +8,8 @@ on:
         required: true
 env:
   GH_TOKEN: ${{ secrets.FULL_GH_TOKEN }}
-  ACR_ENDPOINT: ${{ secrets.ACR_ENDPOINT }}
   ACR_USERNAME: ${{ secrets.ACR_USERNAME }}
+  ACR_ENDPOINT: ${{ secrets.ACR_ENDPOINT }}
   ACR_PASSWORD: ${{ secrets.ACR_PASSWORD }}
   NX_BRANCH: ${{ github.head_ref || github.ref_name }}
 jobs:
@@ -22,7 +22,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          token: ${{ secrets.GH_WORKFLOW_TOKEN }}
+          token: ${{ secrets.FULL_GH_TOKEN }}
           fetch-depth: 0
       - name: Pull changes
         run: |
@@ -74,7 +74,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          token: ${{ secrets.GH_WORKFLOW_TOKEN }}
+          token: ${{ secrets.FULL_GH_TOKEN }}
       - name: Setup git
         run: |
           git config user.name github-actions
@@ -133,13 +133,13 @@ jobs:
           # git push origin $CURRENT_BRANCH
       - name: Package
         run: |
-          IMAGE_NAME="${{matrix.projectName}}"
+          IMAGE_NAME="nestjs-mono-repo-${{matrix.projectName}}"
           VERSION_PROJECT="${{steps.version-project.outputs.version}}"
           VERSION_MONOREPO="${{steps.version-monorepo.outputs.version}}"
           CONTAINER_TAG="$ACR_ENDPOINT/$IMAGE_NAME:$VERSION_MONOREPO"
 
           # - Docker login
-          echo $ACR_PASSWORD | docker login $ACR_ENDPOINT -u $ACR_USERNAME --password-stdin
+          echo $ACR_PASSWORD | docker login -u $ACR_USERNAME --password-stdin
           # - Docker build
           docker build -t $CONTAINER_TAG -f ./apps/${{matrix.projectName}}/Dockerfile ./apps/${{matrix.projectName}}
           # - Docker push

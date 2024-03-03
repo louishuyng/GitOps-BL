@@ -8,7 +8,7 @@ export class AppController {
 
   @Get()
   getData() {
-    console.log("Test")
+    console.log("Test 2")
     // @INFO: Getting the date from services
     return this.appService.getData();
   }
